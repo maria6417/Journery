@@ -20,7 +20,7 @@ const sequelize = new Sequelize(dbname, username, password, {
   }
 })();
 
-const Photos = sequelize.define('Photos', {
+const Photos = sequelize.define('photos', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -31,9 +31,9 @@ const Photos = sequelize.define('Photos', {
   user_id: DataTypes.INTEGER,
   country_code: DataTypes.STRING,
   visit_date: DataTypes.DATE,
-});
+}, { timestamps: false });
 
-const Users = sequelize.define('Users', {
+const Users = sequelize.define('users', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -41,7 +41,8 @@ const Users = sequelize.define('Users', {
   },
   username: DataTypes.STRING,
   password: DataTypes.STRING,
-});
+  email: DataTypes.STRING,
+}, { timestamps: false });
 
 module.exports = {
   Photos,
