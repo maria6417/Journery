@@ -10,7 +10,8 @@ create table photos (
 create table users (
   id serial primary key,
   username varchar(50),
-  password varchar(4000)
+  password varchar(4000),
+  email varchar(50),
 );
 
 create index photos_user_id_idx on photos (
