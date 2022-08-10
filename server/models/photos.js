@@ -1,16 +1,14 @@
 const { Sequelize } = require('sequelize');
-const Photos = require('../db');
+const { sequelize, Photos } = require('../db');
 
 // get all countries that exist in the photos with target userId
 const getCountries = (userId) => (
-  Photos.findAll({
-    attributes: [
-      [Sequelize.fn('DISTINCT', Sequelize.col('country')), 'country'],
-    ],
-    where: {
-      user_id: userId,
+  sequelize.query(
+    'select distinct country_code::VARCHAR from photos where user_id = ?',
+    {
+      replacements: [userId],
     },
-  })
+  ).then((result) => result[0].map((obj) => obj.country_code))
 );
 
 // get all info with target userID & target countryCode
@@ -25,14 +23,14 @@ const getAllPhotos = (userId, countryCode) => (
 
 // create new photos record with provided data
 const createPhotos = ({
-  userId, photo, description, countryCode, visitDate,
+  url, description, user_id, country_code, visit_date
 }) => (
   Photos.create({
-    url: photo,
+    url,
     description,
-    user_id: userId,
-    country_code: countryCode,
-    visit_date: visitDate,
+    user_id,
+    country_code,
+    visit_date: new Date(visit_date),
   })
 );
 

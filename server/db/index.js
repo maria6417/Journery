@@ -45,6 +45,7 @@ const Users = sequelize.define('users', {
 }, { timestamps: false });
 
 module.exports = {
+  sequelize,
   Photos,
   Users,
 };
