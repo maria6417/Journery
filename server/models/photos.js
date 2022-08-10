@@ -22,15 +22,24 @@ const getAllPhotos = (userId, countryCode) => (
 );
 
 // create new photos record with provided data
-const createPhotos = ({
-  url, description, user_id, country_code, visit_date
-}) => (
-  Photos.create({
-    url,
-    description,
-    user_id,
-    country_code,
-    visit_date: new Date(visit_date),
+const createPhotos = (data) => (
+  Photos.create(data)
+);
+
+const updatePhoto = (data) => (
+  Photos.update(data, {
+    where: {
+      id: data.id,
+    },
+    returning: true,
+  }).then((result) => result[1][0])
+);
+
+const deletePhoto = (photoId) => (
+  Photos.destroy({
+    where: {
+      id: photoId,
+    },
   })
 );
 
@@ -38,4 +47,6 @@ module.exports = {
   getCountries,
   getAllPhotos,
   createPhotos,
+  updatePhoto,
+  deletePhoto,
 };
