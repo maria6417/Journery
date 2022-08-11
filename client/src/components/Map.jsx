@@ -1,17 +1,18 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { VectorMap } from '@react-jvectormap/core';
 import worldMill from '@react-jvectormap/world/dist/worldMill.json';
 
 export default function Map({ mapData, handleClick }) {
   return (
-    <div style={{ width: '100vh', height: '100vh' }}>
+    <div className="map-container">
       <VectorMap
         map={worldMill}
         backgroundColor="transparent"
         zoomOnScroll={false}
         containerStyle={{
           width: '100%',
-          height: '520px',
+          height: '100%',
         }}
         onRegionClick={handleClick}
         containerClassName="map"
@@ -34,12 +35,12 @@ export default function Map({ mapData, handleClick }) {
           regions: [
             {
               values: mapData,
-              scale: ['#EE7674'],
+              scale: ['#F9B5AC', '#F49690', '#F18682', '#EE7674'],
               normalizeFunction: 'polynomial',
             },
           ],
         }}
-      />
+        />
     </div>
   );
 }

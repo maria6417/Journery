@@ -4,11 +4,14 @@ const { sequelize, Photos } = require('../db');
 // get all countries that exist in the photos with target userId
 const getCountries = (userId) => (
   sequelize.query(
-    'select distinct country_code::VARCHAR from photos where user_id = ?',
+    `with t as (
+      select count(*) as count, country_code from photos where user_id = ? group by country_code
+    )
+    select json_object_agg(distinct p.country_code, t.count) as results from photos p inner join t on p.country_code = t.country_code where p.user_id = ?`,
     {
-      replacements: [userId],
+      replacements: [userId, userId],
     },
-  ).then((result) => result[0].map((obj) => obj.country_code))
+  ).then((result) => result[0][0].results)
 );
 
 // get all info with target userID & target countryCode
@@ -18,6 +21,9 @@ const getAllPhotos = (userId, countryCode) => (
       user_id: userId,
       country_code: countryCode,
     },
+    order: [
+      ['visit_date', 'DESC'],
+    ],
   })
 );
 

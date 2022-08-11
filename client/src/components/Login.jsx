@@ -1,17 +1,8 @@
 import React, { useState } from 'react';
-
-// login form & signup form
-// renders two forms
-
-// login form
-// username, password
-// authenticates with the database, returns userId, store as state
-// set state logged in true
-
-// signup form
-// username, password, email
-// check if username exists, if not returns userId, store as state
-// set state logged in true
+import InputLabel from '@mui/material/InputLabel';
+import Input from '@mui/material/Input';
+import Button from '@mui/material/Button';
+import styled from 'styled-components';
 
 export default function Login({ setLoggedIn }) {
   const [loginValue, setLoginValue] = useState({});
@@ -32,42 +23,56 @@ export default function Login({ setLoggedIn }) {
     }
   };
 
-  const handleSubmit = (e, type) => {
+  const handleClick = (e) => {
 
   };
 
   return (
-    <div>
-      <div>
+    <Flex>
+      <FlexItem>
         <h2>Login</h2>
-        <form onSubmit={(e) => handleSubmit(e, 'login')}>
-          <label>
+        <form>
+          <InputLabel sx={{ display: 'flex', flexDirection: 'column', padding: '20px 0' }}>
             Username:
-            <input type="username" name="username" onChange={(e) => handleChange(e, 'login')} />
-          </label>
-          <label>
+            <Input type="username" name="username" onChange={(e) => handleChange(e, 'login')} />
+          </InputLabel>
+          <InputLabel sx={{ display: 'flex', flexDirection: 'column', padding: '20px 0' }}>
             Password:
-            <input type="password" name="password" onChange={(e) => handleChange(e, 'login')} />
-          </label>
+            <Input type="password" name="password" onChange={(e) => handleChange(e, 'login')} />
+          </InputLabel>
+          <Button onClick={(e) => handleClick(e, 'login')}>Login</Button>
         </form>
-      </div>
-      <div>
-        <h2>Signup</h2>
-        <form onSubmit={(e) => handleSubmit(e, 'signup')}>
-          <label>
+      </FlexItem>
+      <FlexItem>
+        <h2>Sign Up</h2>
+        <form>
+          <InputLabel sx={{ display: 'flex', flexDirection: 'column', padding: '20px 0' }}>
             Username:
-            <input type="username" name="username" onChange={(e) => handleChange(e, 'signup')} />
-          </label>
-          <label>
+            <Input type="username" name="username" onChange={(e) => handleChange(e, 'signup')} />
+          </InputLabel>
+          <InputLabel sx={{ display: 'flex', flexDirection: 'column', padding: '20px 0' }}>
             Password:
-            <input type="password" name="password" onChange={(e) => handleChange(e, 'signup')} />
-          </label>
-          <label>
+            <Input type="password" name="password" onChange={(e) => handleChange(e, 'signup')} />
+          </InputLabel>
+          <InputLabel sx={{ display: 'flex', flexDirection: 'column', padding: '20px 0' }}>
             Email Address:
-            <input type="email" name="email" onChange={(e) => handleChange(e, 'signup')} />
-          </label>
+            <Input type="email" name="email" onChange={(e) => handleChange(e, 'signup')} />
+          </InputLabel>
+          <Button onClick={(e) => handleClick(e, 'login')}>Sign Up</Button>
         </form>
-      </div>
-    </div>
+      </FlexItem>
+    </Flex>
   );
 }
+
+const Flex = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 2%;
+`;
+
+const FlexItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+`;
