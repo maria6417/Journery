@@ -17,3 +17,8 @@ create table users (
 create index photos_user_id_idx on photos (
   user_id
 );
+
+create table sessions (
+  id varchar(1000) primary key,
+  user_id int
+);

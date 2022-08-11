@@ -44,8 +44,17 @@ const Users = sequelize.define('users', {
   email: DataTypes.STRING,
 }, { timestamps: false });
 
+const Sessions = sequelize.define('sessions', {
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true,
+  },
+  user_id: DataTypes.INTEGER,
+}, { timestamps: false });
+
 module.exports = {
   sequelize,
   Photos,
   Users,
+  Sessions,
 };

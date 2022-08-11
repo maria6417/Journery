@@ -1,33 +1,27 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 import Map from './Map';
 import Posts from './Posts';
 import Header from './Header';
 import Login from './Login';
 
-const userId = 2;
-const samplePhoto = {
-  id: 1,
-  url: 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZnJlZXxlbnwwfHwwfHw%3D&w=1000&q=80',
-  description: 'My first machupichu was incredible. We did blah blah and did blah blah. I hope I can come visit soon again.',
-  user_id: 1,
-  country_code: 'US',
-  visit_date: '2020-08-21',
-};
-
 export default function App() {
-  const [mapData, setMapData] = useState({ KR: 1 });
-  const [photos, setPhotos] = useState([samplePhoto, samplePhoto, samplePhoto]);
+  const [mapData, setMapData] = useState({ US: 0 });
+  const [photos, setPhotos] = useState([]);
   const [openPosts, setOpenPosts] = useState(false);
   const [selectedCountry, setCountry] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [cookies, setCookie] = useCookies(['session']);
+
   // country code + number of pics
   const getPhotos = () => {
     const config = {
       method: 'GET',
       url: '/photos',
       params: {
-        user_id: userId,
+        user_id: loggedIn.id,
         country_code: selectedCountry,
       },
     };
@@ -40,7 +34,7 @@ export default function App() {
     const config = {
       method: 'GET',
       url: '/photos/countries',
-      params: { user_id: userId },
+      params: { user_id: loggedIn.id },
     };
     axios(config)
       .then((result) => result.data ? setMapData(result.data) : setMapData({}))
@@ -63,7 +57,7 @@ export default function App() {
       method: 'POST',
       url: '/photos',
       data: {
-        user_id: userId,
+        user_id: loggedIn.id,
         country_code: selectedCountry,
         url,
         description,
@@ -79,11 +73,11 @@ export default function App() {
   };
 
   useEffect(() => {
-    getCountries();
-  }, []);
+    if (loggedIn) getCountries();
+  }, [loggedIn]);
 
   useEffect(() => {
-    getPhotos();
+    if (loggedIn) getPhotos();
   }, [selectedCountry]);
 
   const handleMapClick = async (e, countryCode) => {
@@ -94,18 +88,24 @@ export default function App() {
 
   return (
     <>
-      <Header />
+      <Header user={loggedIn} />
       <div>
-        <Login setLoggedIn={(props) => console.log(props)} />
-        {/* <Map mapData={mapData} handleClick={handleMapClick} />
-        <Posts
-          photos={photos}
-          countryCode={selectedCountry}
-          open={openPosts}
-          close={() => setOpenPosts(false)}
-          deletePost={deletePost}
-          post={post}
-        /> */}
+        {loggedIn && (
+          <>
+            <Map mapData={mapData} handleClick={handleMapClick} />
+            <Posts
+              photos={photos}
+              countryCode={selectedCountry}
+              open={openPosts}
+              close={() => setOpenPosts(false)}
+              deletePost={deletePost}
+              post={post}
+            />
+          </>
+        )}
+        {!loggedIn && (
+          <Login setLoggedIn={setLoggedIn} />
+        )}
       </div>
     </>
   );

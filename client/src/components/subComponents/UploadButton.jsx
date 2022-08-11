@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 
 export default function UploadButton({ name, change }) {
@@ -12,10 +10,6 @@ export default function UploadButton({ name, change }) {
         Upload
         <input hidden accept="image/*" type="file" onChange={change} name={name} />
       </Button>
-      <IconButton color="primary" aria-label="upload picture" component="label">
-        <input hidden accept="image/*" type="file" onChange={change} name={name} />
-        <PhotoCamera />
-      </IconButton>
     </Stack>
   );
 }

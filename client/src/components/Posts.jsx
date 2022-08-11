@@ -7,7 +7,7 @@ import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
-import { getCode, getName, getData } from 'country-list';
+import { getName } from 'country-list';
 import IndividualPhotos from './IndividualPost';
 import AddPost from './AddPost';
 

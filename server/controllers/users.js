@@ -16,7 +16,7 @@ const login = (req, res) => {
                 email: result.dataValues.email,
               });
             }
-            if (!result2) res.status(404).end('password incorrect');
+            if (!result2) res.status(404).end('password is incorrect');
           });
       }
     })
@@ -27,7 +27,8 @@ const login = (req, res) => {
 };
 
 // store new user
-const signup = async (req, res) => {
+const signup = (req, res) => {
+  console.log('here', req.body);
   // check if username exists
   getUserInfo(req.body.username)
     .then((result) => {

@@ -10,6 +10,7 @@ app.use(express.json());
 
 app.use('/users', router.users);
 app.use('/photos', router.photos);
+app.use('/sessions', router.sessions);
 
 app.listen(process.env.PORT, () => {
   console.log('listening on port', process.env.PORT);
