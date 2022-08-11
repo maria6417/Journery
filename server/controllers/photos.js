@@ -1,4 +1,6 @@
-const { getCountries, getAllPhotos, createPhotos, updatePhoto, deletePhoto } = require('../models').photos;
+const {
+  getCountries, getAllPhotos, createPhotos, updatePhoto, deletePhoto,
+} = require('../models').photos;
 
 // get country list by req.queryparam
 const getCountry = (req, res) => {
