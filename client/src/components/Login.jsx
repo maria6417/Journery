@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
-import { v4 as uuidv4 } from 'uuid';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import styled from 'styled-components';
+import { createSession } from '../lib/sessions';
 
 export default function Login({ setLoggedIn }) {
   const [loginValue, setLoginValue] = useState({});
@@ -44,7 +44,8 @@ export default function Login({ setLoggedIn }) {
       axios(config)
         .then((result) => {
           setLoggedIn(result.data);
-          setCookie('session', uuidv4());
+          createSession(result.data.id)
+            .then((sessionResult) => setCookie('session', sessionResult.data.id));
         })
         .catch((err) => {
           console.log('failed to login', err);
@@ -53,8 +54,6 @@ export default function Login({ setLoggedIn }) {
           }
         });
     }
-    // if result equals none, then either username or password is incorrect. (show error message)
-    // if result came back, set logged in to true with the returned userId
 
 
     if (type === 'signup') {
@@ -70,7 +69,8 @@ export default function Login({ setLoggedIn }) {
       axios(config)
         .then((result) => {
           setLoggedIn(result.data);
-          setCookie('session', uuidv4());
+          createSession(result.data.id)
+            .then((sessionResult) => setCookie('session', sessionResult.data.id));
         })
         .catch((err) => {
           console.log('failed to signup', err);

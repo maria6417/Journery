@@ -2,10 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import Dialog from '@mui/material/Dialog';
 import Map from './Map';
 import Posts from './Posts';
 import Header from './Header';
 import Login from './Login';
+import { checkSession } from '../lib/sessions';
 
 export default function App() {
   const [mapData, setMapData] = useState({ US: 0 });
@@ -13,8 +15,7 @@ export default function App() {
   const [openPosts, setOpenPosts] = useState(false);
   const [selectedCountry, setCountry] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
-  const [cookies, setCookie] = useCookies(['session']);
-
+  const [cookies, setCookie, removeCookie] = useCookies(['session']);
   // country code + number of pics
   const getPhotos = () => {
     const config = {
@@ -72,6 +73,27 @@ export default function App() {
       .catch((err) => console.log('failed posting', err));
   };
 
+  const signOut = () => {
+    // reset cookies,
+    // set loggin false
+    const conf = confirm('Sign out?');
+    if (conf) {
+      setLoggedIn(false);
+      removeCookie('session');
+    }
+  };
+
+  useEffect(() => {
+    console.log(cookies.session);
+    if (cookies.session) {
+      checkSession(cookies.session)
+        .then((result) => {
+          if (result.data.length) setLoggedIn(result.data[0]);
+        })
+        .catch((err) => console.log('error checking cookies', err));
+    }
+  }, []);
+
   useEffect(() => {
     if (loggedIn) getCountries();
   }, [loggedIn]);
@@ -88,7 +110,7 @@ export default function App() {
 
   return (
     <>
-      <Header user={loggedIn} />
+      <Header user={loggedIn} signOut={signOut} />
       <div>
         {loggedIn && (
           <>
