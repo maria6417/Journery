@@ -12,7 +12,7 @@ import IndividualPhotos from './IndividualPost';
 import AddPost from './AddPost';
 
 export default function Posts({
-  photos, countryCode, open, close, deletePost, post,
+  photos, countryCode, open, close, deletePost, post, edit,
 }) {
   const [openForm, setOpenForm] = useState(false);
   const filtered = photos.filter((photo) => photo.country_code === countryCode);
@@ -30,7 +30,7 @@ export default function Posts({
             <List>
               {filtered
                 .map((photo) => (
-                  <IndividualPhotos key={photo.id} photo={photo} deletePost={deletePost} />
+                  <IndividualPhotos key={photo.id} photo={photo} deletePost={deletePost} edit={edit} />
                 ))}
             </List>
           )}

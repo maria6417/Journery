@@ -73,6 +73,18 @@ export default function App() {
       .catch((err) => console.log('failed posting', err));
   };
 
+  const edit = (data) => {
+    const config = {
+      method: 'PUT',
+      url: '/photos',
+      data,
+    };
+
+    axios(config)
+      .then(() => getPhotos())
+      .catch((err) => console.log('error updating photo', err));
+  };
+
   const signOut = () => {
     // reset cookies,
     // set loggin false
@@ -122,6 +134,7 @@ export default function App() {
               close={() => setOpenPosts(false)}
               deletePost={deletePost}
               post={post}
+              edit={edit}
             />
           </>
         )}

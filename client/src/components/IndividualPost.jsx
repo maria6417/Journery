@@ -5,10 +5,12 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { FormattedImg } from '../Styled';
+import EditPost from './EditPost';
 
-export default function IndividualPost({ photo, deletePost }) {
+export default function IndividualPost({ photo, deletePost, edit }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openOptions, setOpenOptions] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -20,25 +22,37 @@ export default function IndividualPost({ photo, deletePost }) {
     setOpenOptions(false);
   };
 
-  const handleDelete = (event) => {
-    deletePost(photo.id);
+  const handleDelete = () => {
+    const conf = confirm('Do you want to delete the post?');
+    if (conf) {
+      deletePost(photo.id);
+    }
+    handleClose();
+  };
+
+  const handleEdit = () => {
+    setEditOpen(true);
     handleClose();
   };
 
   return (
-    <ListItem sx={{ flexDirection: 'column', margin: '2% 0' }}>
-      <MoreHorizIcon sx={{ float: 'right', paddingRight: '1%' }} onClick={handleClick} />
-      <Menu open={openOptions} anchorEl={anchorEl} onClose={handleClose}>
-        <MenuItem onClick={handleDelete}>Delete Post</MenuItem>
-      </Menu>
-      <FormattedImg src={photo.url} alt={photo.description} />
-      <Text className="photo-description" fontSize="medium">{photo.description}</Text>
-      {photo.visit_date && (
-        <Text fontSize="x-small">
-          {photo.visit_date}
-        </Text>
-      )}
-    </ListItem>
+    <>
+      <ListItem sx={{ flexDirection: 'column', margin: '2% 0' }}>
+        <MoreHorizIcon sx={{ float: 'right', paddingRight: '1%' }} onClick={handleClick} />
+        <Menu open={openOptions} anchorEl={anchorEl} onClose={handleClose}>
+          <MenuItem onClick={handleDelete}>Delete Post</MenuItem>
+          <MenuItem onClick={handleEdit}>Edit Post</MenuItem>
+        </Menu>
+        <FormattedImg src={photo.url} alt={photo.description} />
+        <Text className="photo-description" fontSize="medium">{photo.description}</Text>
+        {photo.visit_date && (
+          <Text fontSize="x-small">
+            {photo.visit_date}
+          </Text>
+        )}
+      </ListItem>
+      <EditPost open={editOpen} setOpen={setEditOpen} edit={edit} data={photo} />
+    </>
   );
 }
 
