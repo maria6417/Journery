@@ -96,7 +96,6 @@ export default function App() {
   };
 
   useEffect(() => {
-    console.log(cookies.session);
     if (cookies.session) {
       checkSession(cookies.session)
         .then((result) => {
