@@ -8,7 +8,7 @@ Countries that you have already visited will be painted in pink. You can click o
 - [Tech Stack](#tech-stack)
 - [Product Features](#product-features)
   - [Login authentication with bcrypt hashing](#login-authentication-with-bcrypt)
-  - [CRUD](#CRUD)
+  - [CRUD](#crud-posts)
 - [Getting Started](#getting-started)
   - [Installation](#installation)
 
@@ -28,8 +28,7 @@ Countries that you have already visited will be painted in pink. You can click o
 > Users can login to an existing account or signup. Session is persisted with cookies.
 ![](assets/login.png)
 
-### View, edit, create and delete posts
-
+### CRUD posts
 > Users can upload a new picture and post
 ![](assets/demo/create.gif)
 
